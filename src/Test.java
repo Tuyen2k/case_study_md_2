@@ -14,11 +14,11 @@ public class Test {
         AccountMenu accountMenu = new AccountMenu();
 
 
-        parameterMenu.menu();
-//        smartphoneMenu.menu();
+//        parameterMenu.menu();
+        smartphoneMenu.menu();
 
 //        roleMenu.menu();
-//        accountMenu.menu();
+//        accountMenu.menuLogIn();
 
     }
 }

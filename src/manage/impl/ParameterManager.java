@@ -40,11 +40,11 @@ public class ParameterManager implements IParameterService {
 
     private List<Parameter> getList() {
         list.add(new Parameter("black", "IPS LCD", "Snapdragon 800", "6", "128", "5000", "100"));
-        list.add(new Parameter("white", "Amoled", "Snapdragon 755", "4", "128", "5000", "99"));
-        list.add(new Parameter("pink", "Super Amoled", "Snapdragon 850", "8", "128", "5000", "100"));
-        list.add(new Parameter("black", "Amoled 2X", "A15 Bionic", "4", "128", "4000", "100"));
-        list.add(new Parameter("gold", "Amoled 2X", "A15 Bionic", "6", "128", "5000", "100"));
-        list.add(new Parameter("blue", "Amoled", "A14 Bionic", "8", "256", "5000", "99"));
+        list.add(new Parameter("white", "AMOLED", "Snapdragon 755", "4", "128", "5000", "99"));
+        list.add(new Parameter("pink", "Super AMOLED", "Snapdragon 850", "8", "128", "5000", "100"));
+        list.add(new Parameter("black", "AMOLED 2X", "A15 Bionic", "4", "128", "4000", "100"));
+        list.add(new Parameter("gold", "AMOLED 2X", "A15 Bionic", "6", "128", "5000", "100"));
+        list.add(new Parameter("blue", "AMOLED", "A14 Bionic", "8", "256", "5000", "99"));
 
         return list;
     }
@@ -67,7 +67,7 @@ public class ParameterManager implements IParameterService {
     @Override
     public void display() {
         if (!parameters.isEmpty()) {
-            System.out.printf("%-10s %-10s %-10s %-20s %-10s %-10s %-10s %-10s\n",
+            System.out.printf("%-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
                     "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
             for (Parameter parameter : parameters) {
                 System.out.println(parameter);
@@ -150,8 +150,8 @@ public class ParameterManager implements IParameterService {
         int choice;
         System.out.println("--------------------------------------");
         System.out.println("Choose the CPU of the product ");
-        System.out.printf("%-20d %-20d %-20d %-20d %-20d\n", 1, 2, 3, 4, 5);
-        System.out.printf("%-20s %-20s %-20s %-20s %-20s\n", "Apple A15", "Apple A14", "Snapdragon 800", "Snapdragon 810", "Snapdragon 755");
+        System.out.printf("%-20d %-20d %-20d %-20d %-20d %-20d\n", 1, 2, 3, 4, 5, 6);
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s\n", "Apple A15", "Apple A14", "Snapdragon 800", "Snapdragon 810", "Snapdragon 755", "Snapdragon 850");
         try {
             choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
@@ -170,6 +170,9 @@ public class ParameterManager implements IParameterService {
                 case 5:
                     str = "Snapdragon 755";
                     break;
+                case 6:
+                    str = "Snapdragon 850";
+                    break;
             }
         } catch (Exception e) {
             System.out.println("Please enter the appropriate option");
@@ -177,7 +180,7 @@ public class ParameterManager implements IParameterService {
         return str;
     }
 
-    private String inputRAMChoice() {
+    public String inputRAMChoice() {
         String str = null;
         int choice;
         System.out.println("--------------------------------------");
@@ -308,8 +311,8 @@ public class ParameterManager implements IParameterService {
     // bắt đầu update
     public void inputDataUpdate() {
         int choice = -1;
-        System.out.printf("%-10s %-10d %-10d %-20d %-10d %-10d %-10d %-30d\n", "0. Exit ", 1, 2, 3, 4, 5, 6, 7);
-        System.out.printf("%-10s %-10s %-10s %-20s %-10s %-10s %-10s %-30s\n", "Series", "Color", "Screen", "CPU", "RAM", "ROM", "PIN", "Machine");
+        System.out.printf("%-10s %-10d %-15d %-20d %-10d %-10d %-10d %-30d\n", "0. Exit ", 1, 2, 3, 4, 5, 6, 7);
+        System.out.printf("%-10s %-10s %-15s %-20s %-10s %-10s %-10s %-30s\n", "Series", "Color", "Screen", "CPU", "RAM", "ROM", "PIN", "Machine");
         System.out.println(parameter);
         do {
             System.out.println("Enter your choice:");
@@ -357,7 +360,7 @@ public class ParameterManager implements IParameterService {
                     break;
                 case 7:
                     String machine = inputMachineChoice();
-                        parameter.setMachineStatus(machine);
+                    parameter.setMachineStatus(machine);
                     break;
             }
         } while (choice != 0);
@@ -459,7 +462,7 @@ public class ParameterManager implements IParameterService {
 
     public void readFromFile() {
         parameters = file.readFile(PATH);
-        if (parameters.isEmpty()){
+        if (parameters.isEmpty()) {
             parameters = getList();
         }
     }

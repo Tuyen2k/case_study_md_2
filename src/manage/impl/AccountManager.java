@@ -140,6 +140,7 @@ public class AccountManager implements IAccountService {
     }
 
 
+    //đăng ký
     @Override
     public void create() {
         String[] strings = inputData();
@@ -241,6 +242,8 @@ public class AccountManager implements IAccountService {
         }
         return flag;
     }
+
+
     public String[] inputLogIn(){
         String[] strings = new String[2];
         System.out.println("Enter username:");
@@ -273,7 +276,6 @@ public class AccountManager implements IAccountService {
     }
     public boolean checkRole(){
         flag = account.getRole().getNameRole().equals("Admin");
-
         return flag;
     }
 

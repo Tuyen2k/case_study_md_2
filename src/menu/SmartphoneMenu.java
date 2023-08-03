@@ -16,12 +16,13 @@ public class SmartphoneMenu {
             System.out.println("2. Add Product");
             System.out.println("3. Update Product by id");
             System.out.println("4. Delete Product");
+            System.out.println("5. Total amount of products");
+            System.out.println("6. Total quantity of products");
             System.out.println("0. Exit");
             System.out.println("============================================");
             System.out.println("Enter your choice:");
             try {
                 choice = Integer.parseInt(scanner.nextLine());
-
                 switch (choice) {
                     case 1:
                         smartphoneManager.display();
@@ -35,10 +36,18 @@ public class SmartphoneMenu {
                     case 4:
                         smartphoneManager.delete();
                         break;
+                    case 5:
+                        smartphoneManager.totalAmountProduct();
+                        break;
+                    case 6:
+                        smartphoneManager.totalQuantityProduct();
+                        break;
+                    case 7:
+                        smartphoneManager.searchProduct();
+                        break;
                 }
             } catch (Exception e) {
                 System.out.println("Please enter correct!!");
-                ;
             }
 
         } while (choice != 0);

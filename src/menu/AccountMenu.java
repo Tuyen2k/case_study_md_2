@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class AccountMenu {
 
-    public void menu() {
+    public void menuLogIn() {
         Scanner scanner = new Scanner(System.in);
         AccountManager accountManager = AccountManager.getInstance();
         int choice = -1;
@@ -42,5 +42,9 @@ public class AccountMenu {
             }
 
         } while (choice != 0);
+    }
+
+    public void menuAdmin(){
+
     }
 }

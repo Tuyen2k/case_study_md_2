@@ -96,7 +96,7 @@ public class Parameter implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%-10d %-10s %-10s %-20s %-10s %-10s %-10s %-10s",
+        return String.format("%-10d %-10s %-15s %-20s %-10s %-10s %-10s %-10s",
                 series, color, screenTechnology, cpu, ram+"GB", rom+"GB", battery +"mAh", machineStatus+"%");
     }
 }
