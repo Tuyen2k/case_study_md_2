@@ -5,10 +5,8 @@ import manage.impl.RoleManager;
 import java.util.Scanner;
 
 public class RoleMenu {
-    public void menu() {
-        Scanner scanner = new Scanner(System.in);
+    public void menu(Scanner scanner, int choice) {
         RoleManager roleManager = RoleManager.getInstance();
-        int choice = -1;
         do {
             System.out.println("Menu Role: ");
             System.out.println("1. Display role list");

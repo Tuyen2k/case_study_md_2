@@ -6,10 +6,7 @@ import model.Category;
 import model.Parameter;
 import model.Smartphone;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class SmartphoneManager implements ISmartphoneService {
@@ -52,7 +49,6 @@ public class SmartphoneManager implements ISmartphoneService {
             Smartphone.INDEX = 0;
         }
     }
-
 
     @Override
     public void display() {
@@ -279,7 +275,7 @@ public class SmartphoneManager implements ISmartphoneService {
     public void delete() {
         Smartphone smartphone = findById();
         if (smartphone != null) {
-            System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-20s %-10s %-10s %-10s %-10s\n",
+            System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
                     "Id", "Name", "Price", "Quantity", "Category", "Manufacture", "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
             System.out.println(smartphone);
             System.out.println("Are you sure you want to delete?");
@@ -367,7 +363,7 @@ public class SmartphoneManager implements ISmartphoneService {
         Category category = categoryManager.findById();
         if (category != null) {
             for (Smartphone smartphone1 : smartphones) {
-                if (smartphone1.getCategory().equals(category)) {
+                if (smartphone1.getCategory().getName_category().equals(category.getName_category())) {
                     quantity += smartphone1.getQuantity();
                 }
             }
@@ -382,7 +378,7 @@ public class SmartphoneManager implements ISmartphoneService {
         String name = inputName();
         if (!name.isEmpty()) {
             for (Smartphone smartphone1 : smartphones) {
-                if (smartphone1.getName().equals(name)) {
+                if (smartphone1.getName().equalsIgnoreCase(name)) {
                     quantity += smartphone1.getQuantity();
                 }
             }
@@ -414,16 +410,16 @@ public class SmartphoneManager implements ISmartphoneService {
 
     //tính năng tìm kiếm
 
-    public String inputDataToFind() {
-        String name = scanner.nextLine();
-
-        return name;
+    private List<Smartphone> list;
+    public List<Smartphone> getList() {
+        return list;
     }
 
+    public List<Smartphone> getSmartphones() {
+        return smartphones;
+    }
 
-    List<Smartphone> list;
-
-    public void searchProduct() {
+    public void searchName() {
         list = new ArrayList<>();
         System.out.println("Enter name your want find");
         String name = scanner.nextLine();
@@ -433,17 +429,41 @@ public class SmartphoneManager implements ISmartphoneService {
             }
         }
         if (!list.isEmpty()) {
+            System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
+                    "Id", "Name", "Price", "Quantity", "Category", "Manufacture",
+                    "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
             for (Smartphone smartphone1 : list) {
                 System.out.println(smartphone1);
             }
             System.out.println("-----------------------------------------------");
-            inputPriceSearch();
         } else {
             System.out.println("No product match choice!!!");
         }
     }
 
-    private void inputPriceSearch() {
+    private void searchByName() {
+        System.out.println("Enter name your want find");
+        String name = scanner.nextLine();
+        for (Smartphone smartphone1 : smartphones) {
+            if (!smartphone1.getName().toLowerCase().contains(name.toLowerCase())) {
+                list.remove(smartphone1);
+            }
+        }
+        if (!list.isEmpty()) {
+            System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
+                    "Id", "Name", "Price", "Quantity", "Category", "Manufacture",
+                    "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
+            for (Smartphone smartphone1 : list) {
+                System.out.println(smartphone1);
+            }
+            System.out.println("-----------------------------------------------");
+            searchByPrice();
+        } else {
+            System.out.println("No product match choice!!!");
+        }
+    }
+
+    private void searchByPrice() {
         System.out.println("Enter the price range you want to find");
         pattern = Pattern.compile("^[12345]$");
         System.out.printf("%-20d %-20d %-20d %-20d %-20d\n", 1, 2, 3, 4, 5);
@@ -496,36 +516,100 @@ public class SmartphoneManager implements ISmartphoneService {
             System.out.println("Enter the correct option!!!");
         }
         if (!list.isEmpty()) {
+            System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
+                    "Id", "Name", "Price", "Quantity", "Category", "Manufacture",
+                    "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
             for (Smartphone smartphone1 : list) {
                 System.out.println(smartphone1);
             }
             System.out.println("-----------------------------------------------");
-            inputRamSearch();
+            searchByRam();
         } else {
             System.out.println("No product match choice!!!");
         }
     }
 
-    private void inputRamSearch() {
+    private void searchByRam() {
         System.out.println("Enter the RAM you want to find");
         String ram = parameterManager.inputRAMChoice();
-        if (ram != null){
+        if (ram != null) {
             Iterator<Smartphone> iterator = list.iterator();
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 Smartphone smartphone1 = iterator.next();
-                if (!smartphone1.getParameter().getRam().equals(ram)){
+                if (!smartphone1.getParameter().getRam().equals(ram)) {
                     iterator.remove();
                 }
             }
             if (!list.isEmpty()) {
+                System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
+                        "Id", "Name", "Price", "Quantity", "Category", "Manufacture",
+                        "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
                 for (Smartphone smartphone1 : list) {
                     System.out.println(smartphone1);
                 }
             } else {
                 System.out.println("No product match choice!!!");
             }
-        }else {
+        } else {
             System.out.println("Enter choice correct!!!");
         }
     }
+
+    //tính năng của user
+    public void searchProduct() {
+        list = new ArrayList<>();
+        categoryManager.display();
+        System.out.println("-------------------------------------------------");
+        Category category = categoryManager.findById();
+        if (category != null) {
+            for (Smartphone smartphone1 : smartphones) {
+                if (smartphone1.getCategory().getName_category().equals(category.getName_category())) {
+                    list.add(smartphone1);
+                }
+            }
+            if (!list.isEmpty()) {
+                System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
+                        "Id", "Name", "Price", "Quantity", "Category", "Manufacture",
+                        "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
+                for (Smartphone smartphone1 : list) {
+                    System.out.println(smartphone1);
+                }
+                searchByName();
+            } else {
+                System.out.println("No products matched!!!");
+            }
+        } else {
+            System.out.println("Please enter exactly as directed!!!");
+        }
+    }
+
+    public void displayByPriceIncrease(List<Smartphone> list1) {
+        list1.sort(new Comparator<Smartphone>() {
+            @Override
+            public int compare(Smartphone o1, Smartphone o2) {
+                return Double.compare(Double.parseDouble(o1.getPrice()), Double.parseDouble(o2.getPrice()));
+            }
+        });
+        System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
+                "Id", "Name", "Price", "Quantity", "Category", "Manufacture",
+                "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
+        for (Smartphone smartphone1 : list1) {
+            System.out.println(smartphone1);
+        }
+    }
+    public void displayByPriceDecrease(List<Smartphone> list1) {
+        list1.sort(new Comparator<Smartphone>() {
+            @Override
+            public int compare(Smartphone o1, Smartphone o2) {
+                return Double.compare(Double.parseDouble(o2.getPrice()), Double.parseDouble(o1.getPrice()));
+            }
+        });
+        System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
+                "Id", "Name", "Price", "Quantity", "Category", "Manufacture",
+                "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
+        for (Smartphone smartphone1 : list1) {
+            System.out.println(smartphone1);
+        }
+    }
+
 }

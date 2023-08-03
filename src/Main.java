@@ -33,13 +33,13 @@ public class Main {
             }
             switch (choice) {
                 case 1:
-                    smartphoneMenu.menu();
+                    smartphoneMenu.menu(scanner, choice);
                     break;
                 case 2:
-                    categoryMenu.menu();
+                    categoryMenu.menu(scanner, choice);
                     break;
                 case 3:
-                    parameterMenu.menu();
+                    parameterMenu.menu(scanner, choice);
                     break;
                 case 0:
                     System.exit(0);

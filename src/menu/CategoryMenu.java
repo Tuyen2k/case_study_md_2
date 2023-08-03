@@ -5,10 +5,8 @@ import manage.impl.CategoryManager;
 import java.util.Scanner;
 
 public class CategoryMenu {
-    public void menu() {
-        Scanner scanner = new Scanner(System.in);
+    public void menu(Scanner scanner, int choice) {
         CategoryManager categoryManager = CategoryManager.getInstance();
-        int choice = -1;
         do {
             System.out.println("Menu Category: ");
             System.out.println("1. Display category list");

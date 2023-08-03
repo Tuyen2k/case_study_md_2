@@ -5,10 +5,8 @@ import manage.impl.ParameterManager;
 import java.util.Scanner;
 
 public class ParameterMenu {
-    public void menu() {
-        Scanner scanner = new Scanner(System.in);
+    public void menu(Scanner scanner, int choice) {
         ParameterManager parameterManager = ParameterManager.getInstance();
-        int choice = -1;
         do {
             System.out.println("Menu Parameter: ");
             System.out.println("1. Display parameter list");

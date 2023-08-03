@@ -18,7 +18,8 @@ public class AccountManager implements IAccountService {
     private final String PATH = "C:\\Users\\tuyen\\Desktop\\Case_Study_Test\\src\\io\\data\\account";
     private int count;
     private Account account;
-    private final RoleManager roleManager = RoleManager.getInstance();;
+    private final RoleManager roleManager = RoleManager.getInstance();
+    ;
 
     private int id;
     private boolean flag;
@@ -37,10 +38,11 @@ public class AccountManager implements IAccountService {
         }
         return accountManager;
     }
-    private List<Account> getAccountsDefault(){
+
+    private List<Account> getAccountsDefault() {
         List<Account> list = new ArrayList<>();
-        list.add(new Account("Admin","tuyen123","0123456789",roleManager.findById("1")));
-        list.add(new Account("Demo","tuyen123","0123456789",roleManager.findById("2")));
+        list.add(new Account("Admin", "tuyen123", "0123456789", roleManager.findById("1")));
+        list.add(new Account("Demo", "tuyen123", "0123456789", roleManager.findById("2")));
         return list;
     }
 
@@ -103,8 +105,8 @@ public class AccountManager implements IAccountService {
 
     private String inputNumberPhone() {
         setInput();
-        pattern = Pattern.compile("^0[^0]\\d{8}|\\(0[^0]\\d\\) \\d{3} \\d{4}$");
-        System.out.println("Number phone type:  0973******* or (097) *** ****");
+        pattern = Pattern.compile("^0[^0]\\d{8}$");
+        System.out.println("Number phone type:  0973*******");
         System.out.println("Enter number phone: ");
         return getString();
     }
@@ -150,8 +152,20 @@ public class AccountManager implements IAccountService {
             String re_password = strings[2];
             String numberPhone = strings[3];
             if (password.equals(re_password)) {
-                accounts.add(new Account(username, password, numberPhone, roleManager.findById("2")));
-                System.out.println("Sign up success");
+                flag = true;
+                for (Account account1 : accounts) {
+                    if (account1.getNumberPhone().equals(numberPhone)) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag){
+                    accounts.add(new Account(username, password, numberPhone, roleManager.findById("2")));
+                    System.out.println("Sign up success");
+                }
+                else {
+                    System.out.println("Number phone already exists!!!");
+                }
             } else {
                 System.out.println("Re-entered password is not correct!");
             }
@@ -244,7 +258,7 @@ public class AccountManager implements IAccountService {
     }
 
 
-    public String[] inputLogIn(){
+    public String[] inputLogIn() {
         String[] strings = new String[2];
         System.out.println("Enter username:");
         strings[0] = scanner.nextLine();
@@ -258,23 +272,25 @@ public class AccountManager implements IAccountService {
         }
         return strings;
     }
-    public boolean checkLogin(){
+
+    public boolean checkLogin() {
         flag = false;
         String[] strings = inputLogIn();
-        if (strings != null){
+        if (strings != null) {
             String username = strings[0];
             String password = strings[1];
-           for (Account account1: accounts){
-               if (account1.getUserName().equals(username) && account1.getPassword().equals(password)) {
-                   account = account1;
-                   flag = true;
-                   break;
-               }
-           }
+            for (Account account1 : accounts) {
+                if (account1.getUserName().equals(username) && account1.getPassword().equals(password)) {
+                    account = account1;
+                    flag = true;
+                    break;
+                }
+            }
         }
         return flag;
     }
-    public boolean checkRole(){
+
+    public boolean checkRole() {
         flag = account.getRole().getNameRole().equals("Admin");
         return flag;
     }
@@ -322,7 +338,7 @@ public class AccountManager implements IAccountService {
 
     public void readFromFile() {
         accounts = file.readFile(PATH);
-        if (accounts.isEmpty()){
+        if (accounts.isEmpty()) {
             accounts = getAccountsDefault();
         }
     }

@@ -1,15 +1,15 @@
 package menu;
 
-import manage.impl.ParameterManager;
 import manage.impl.SmartphoneManager;
+import model.Smartphone;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class SmartphoneMenu {
-    public void menu() {
-        Scanner scanner = new Scanner(System.in);
+    public void menu(Scanner scanner, int choice) {
         SmartphoneManager smartphoneManager = SmartphoneManager.getInstance();
-        int choice = -1;
         do {
             System.out.println("Menu Product: ");
             System.out.println("1. Display Product list");
@@ -18,6 +18,7 @@ public class SmartphoneMenu {
             System.out.println("4. Delete Product");
             System.out.println("5. Total amount of products");
             System.out.println("6. Total quantity of products");
+            System.out.println("7. Search product product");
             System.out.println("0. Exit");
             System.out.println("============================================");
             System.out.println("Enter your choice:");
@@ -49,7 +50,6 @@ public class SmartphoneMenu {
             } catch (Exception e) {
                 System.out.println("Please enter correct!!");
             }
-
         } while (choice != 0);
     }
 }
