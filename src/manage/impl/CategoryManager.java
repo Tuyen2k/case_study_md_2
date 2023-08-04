@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class CategoryManager implements ICategoryService {
-    private List<Category> categories = new ArrayList<>() ;
+    private List<Category> categories = new ArrayList<>();
     private final Scanner scanner;
     private static CategoryManager categoryManager;
     private final FileIO<Category> file;
@@ -22,15 +22,17 @@ public class CategoryManager implements ICategoryService {
         readFromFile();
         setIndex();
     }
+
     private final List<Category> list = new ArrayList<>();
 
-    private List<Category> getCategories(){
+    private List<Category> getCategories() {
         list.add(new Category("Samsung"));
         list.add(new Category("Apple"));
         list.add(new Category("Xiaomi"));
 
         return list;
     }
+
     public static CategoryManager getInstance() {
         if (categoryManager == null) {
             categoryManager = new CategoryManager();
@@ -68,12 +70,12 @@ public class CategoryManager implements ICategoryService {
         System.out.println("Enter name category:");
         String name = scanner.nextLine();
         count = 0;
-            while (count < 3 && name.isEmpty()) {
-                count++;
-                System.out.println("You input error " + count + " times!");
-                System.out.println("Please re-enter:");
-                name = scanner.nextLine();
-            }
+        while (count < 3 && name.isEmpty()) {
+            count++;
+            System.out.println("You input error " + count + " times!");
+            System.out.println("Please re-enter:");
+            name = scanner.nextLine();
+        }
         return name;
     }
 
@@ -181,13 +183,13 @@ public class CategoryManager implements ICategoryService {
         writeToFile();
     }
 
-    public void writeToFile(){
-        file.writeFile(PATH,categories);
+    public void writeToFile() {
+        file.writeFile(PATH, categories);
     }
 
-    public void readFromFile(){
+    public void readFromFile() {
         categories = file.readFile(PATH);
-        if (categories.isEmpty()){
+        if (categories.isEmpty()) {
             categories = getCategories();
         }
     }

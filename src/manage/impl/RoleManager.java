@@ -17,24 +17,28 @@ public class RoleManager {
     private boolean flag;
     private int count;
     private Pattern pattern;
+
     private RoleManager() {
         scanner = new Scanner(System.in);
         file = new FileIO<>();
         readFromFile();
         setIndex();
     }
-    public static RoleManager getInstance(){
-        if (roleManager == null){
+
+    public static RoleManager getInstance() {
+        if (roleManager == null) {
             roleManager = new RoleManager();
         }
         return roleManager;
     }
-    private List<RoleAccount> getRoleAccountsDefault(){
+
+    private List<RoleAccount> getRoleAccountsDefault() {
         List<RoleAccount> list = new ArrayList<>();
         list.add(new RoleAccount("Admin"));
         list.add(new RoleAccount("User"));
         return list;
     }
+
     private void setIndex() {
         if (!roleAccounts.isEmpty()) {
             int index = roleAccounts.get(0).getId();
@@ -118,6 +122,7 @@ public class RoleManager {
         }
         return string;
     }
+
     private boolean checkId(String id) {
         flag = false;
         try {
@@ -136,17 +141,15 @@ public class RoleManager {
 
 
     public RoleAccount findById(String id) {
-        RoleAccount role = new RoleAccount();
         if (checkId(id)) {
             for (RoleAccount roleAccount : roleAccounts) {
                 if (roleAccount.getId() == Integer.parseInt(id)) {
-                    role = roleAccount;
+                    return roleAccount;
                 }
             }
         }
-        return role;
+        return null;
     }
-
 
 
     public void delete() {
@@ -159,10 +162,10 @@ public class RoleManager {
             String choice = scanner.nextLine();
             if (pattern.matcher(choice).matches()) {
                 if (Integer.parseInt(choice) == 1) {
-                    if (!roleAccount.getNameRole().equals("Admin")){
+                    if (!roleAccount.getNameRole().equals("Admin")) {
                         roleAccounts.remove(roleAccount);
                         System.out.println("Success!!!");
-                    }else {
+                    } else {
                         System.out.println("Can't delete admin role");
                     }
                 }
@@ -175,12 +178,13 @@ public class RoleManager {
         writeToFile();
     }
 
-    public void writeToFile(){
-        file.writeFile(PATH,roleAccounts);
+    public void writeToFile() {
+        file.writeFile(PATH, roleAccounts);
     }
-    public void readFromFile(){
+
+    public void readFromFile() {
         roleAccounts = file.readFile(PATH);
-        if (roleAccounts.isEmpty()){
+        if (roleAccounts.isEmpty()) {
             roleAccounts = getRoleAccountsDefault();
         }
     }

@@ -27,9 +27,9 @@ public class AccountMenu {
                             System.out.println("Log in successful!");
                             //thiết kế menu cho từng role
                             if (accountManager.checkRole()) {
-                                menuAdmin(scanner,choice);
+                                menuAdmin(scanner, choice);
                             } else {
-                                menuUser(scanner,choice);
+                                menuUser(scanner, choice);
                             }
                         } else {
                             System.out.println("Log in unsuccessful");
@@ -66,19 +66,19 @@ public class AccountMenu {
                 choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
-                        smartphoneMenu.menu(scanner,choice);
+                        smartphoneMenu.menu(scanner, choice);
                         break;
                     case 2:
-                        categoryMenu.menu(scanner,choice);
+                        categoryMenu.menu(scanner, choice);
                         break;
                     case 3:
-                        parameterMenu.menu(scanner,choice);
+                        parameterMenu.menu(scanner, choice);
                         break;
                     case 4:
-                        menuAccount(scanner,choice);
+                        menuAccount(scanner, choice);
                         break;
                     case 5:
-                        roleMenu.menu(scanner,choice);
+                        roleMenu.menu(scanner, choice);
                         break;
                 }
             } catch (Exception e) {
@@ -87,7 +87,7 @@ public class AccountMenu {
         } while (choice != 0);
     }
 
-    public void menuAccount(Scanner scanner, int choice){
+    public void menuAccount(Scanner scanner, int choice) {
         AccountManager accountManager = AccountManager.getInstance();
         do {
             System.out.println("Menu account: ");
@@ -120,16 +120,20 @@ public class AccountMenu {
         } while (choice != 0);
     }
 
-    public void menuUser(Scanner scanner, int choice){
+    public void menuUser(Scanner scanner, int choice) {
         SmartphoneManager smartphoneManager = SmartphoneManager.getInstance();
+        CartMenu cartMenu = new CartMenu();
         List<Smartphone> list1 = new ArrayList<>();
         do {
-            System.out.println("Menu user: ");
+            System.out.println("Menu account:                          "
+                    +"User name: " + AccountManager.accountLogIn.getUserName());
             System.out.println("1. Display product in store");
             System.out.println("2. Search product by category, name, price and ram");
             System.out.println("3. Search product by name");
-            System.out.println("4. Sort products by price increase ");
-            System.out.println("5. Sort products by price decrease ");
+            System.out.println("4. Sort products by price increase");
+            System.out.println("5. Sort products by price decrease");
+//tính năng mua hàng ở đây
+            System.out.println("6. Your cart:");
 //bổ sung tính năng user: giỏ hàng và thanh toán
             System.out.println("0. Exit");
             System.out.println("====================================");
@@ -160,10 +164,13 @@ public class AccountMenu {
                         }
                         smartphoneManager.displayByPriceDecrease(list1);
                         break;
+                    case 6:
+                        cartMenu.menu(scanner, choice);
+                        break;
                 }
             } catch (Exception e) {
                 System.out.println("Please enter correct!!");
             }
-        }while (choice != 0);
+        } while (choice != 0);
     }
 }

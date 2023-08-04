@@ -183,8 +183,6 @@ public class ParameterManager implements IParameterService {
     public String inputRAMChoice() {
         String str = null;
         int choice;
-        System.out.println("--------------------------------------");
-        System.out.println("Choose the RAM of the product ");
         System.out.printf("%-20d %-20d %-20d %-20d\n", 1, 2, 3, 4);
         System.out.printf("%-20s %-20s %-20s %-20s\n", "4GB", "6GB", "8GB", "16GB");
         try {

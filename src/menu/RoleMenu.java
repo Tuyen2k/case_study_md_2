@@ -35,7 +35,6 @@ public class RoleMenu {
                 }
             } catch (Exception e) {
                 System.out.println("Please enter correct!!");
-                ;
             }
         } while (choice != 0);
     }

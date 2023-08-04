@@ -19,12 +19,12 @@ public class AccountManager implements IAccountService {
     private int count;
     private Account account;
     private final RoleManager roleManager = RoleManager.getInstance();
-    ;
 
     private int id;
     private boolean flag;
     private Pattern pattern;
 
+    public static Account accountLogIn;
     private AccountManager() {
         scanner = new Scanner(System.in);
         file = new FileIO<>();
@@ -281,7 +281,7 @@ public class AccountManager implements IAccountService {
             String password = strings[1];
             for (Account account1 : accounts) {
                 if (account1.getUserName().equals(username) && account1.getPassword().equals(password)) {
-                    account = account1;
+                    accountLogIn = account1;
                     flag = true;
                     break;
                 }
@@ -291,21 +291,20 @@ public class AccountManager implements IAccountService {
     }
 
     public boolean checkRole() {
-        flag = account.getRole().getNameRole().equals("Admin");
+        flag = accountLogIn.getRole().getNameRole().equals("Admin");
         return flag;
     }
 
     @Override
     public Account findById() {
-        Account account = new Account();
         if (checkId()) {
             for (Account account1 : accounts) {
                 if (account1.getId() == id) {
-                    account = account1;
+                    return account1;
                 }
             }
         }
-        return account;
+        return null;
     }
 
 

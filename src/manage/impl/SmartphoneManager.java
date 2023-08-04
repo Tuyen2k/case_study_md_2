@@ -411,6 +411,7 @@ public class SmartphoneManager implements ISmartphoneService {
     //tính năng tìm kiếm
 
     private List<Smartphone> list;
+
     public List<Smartphone> getList() {
         return list;
     }
@@ -532,26 +533,23 @@ public class SmartphoneManager implements ISmartphoneService {
     private void searchByRam() {
         System.out.println("Enter the RAM you want to find");
         String ram = parameterManager.inputRAMChoice();
-        if (ram != null) {
-            Iterator<Smartphone> iterator = list.iterator();
-            while (iterator.hasNext()) {
-                Smartphone smartphone1 = iterator.next();
+
+        if (ram != null){
+        for (Smartphone smartphone1 : smartphones) {
                 if (!smartphone1.getParameter().getRam().equals(ram)) {
-                    iterator.remove();
+                    list.remove(smartphone1);
                 }
             }
-            if (!list.isEmpty()) {
-                System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
-                        "Id", "Name", "Price", "Quantity", "Category", "Manufacture",
-                        "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
-                for (Smartphone smartphone1 : list) {
-                    System.out.println(smartphone1);
-                }
-            } else {
-                System.out.println("No product match choice!!!");
+        }
+        if (!list.isEmpty()) {
+            System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
+                    "Id", "Name", "Price", "Quantity", "Category", "Manufacture",
+                    "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
+            for (Smartphone smartphone1 : list) {
+                System.out.println(smartphone1);
             }
         } else {
-            System.out.println("Enter choice correct!!!");
+            System.out.println("No product match choice!!!");
         }
     }
 
@@ -584,7 +582,7 @@ public class SmartphoneManager implements ISmartphoneService {
     }
 
     public void displayByPriceIncrease(List<Smartphone> list1) {
-        list1.sort(new Comparator<Smartphone>() {
+        list1.sort(new Comparator<Smartphone>(){
             @Override
             public int compare(Smartphone o1, Smartphone o2) {
                 return Double.compare(Double.parseDouble(o1.getPrice()), Double.parseDouble(o2.getPrice()));
@@ -597,6 +595,7 @@ public class SmartphoneManager implements ISmartphoneService {
             System.out.println(smartphone1);
         }
     }
+
     public void displayByPriceDecrease(List<Smartphone> list1) {
         list1.sort(new Comparator<Smartphone>() {
             @Override
