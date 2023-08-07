@@ -128,7 +128,7 @@ public class CategoryManager implements ICategoryService {
                 }
             }
         } catch (NumberFormatException e) {
-            System.out.println("Please enter the correct!!");
+            System.out.println("Please enter the correct!!!");
         }
         return flag;
     }

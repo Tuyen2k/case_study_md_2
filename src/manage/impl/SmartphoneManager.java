@@ -323,7 +323,7 @@ public class SmartphoneManager implements ISmartphoneService {
         Category category = categoryManager.findById();
         if (category != null) {
             for (Smartphone smartphone1 : smartphones) {
-                if (smartphone1.getCategory().equals(category)) {
+                if (smartphone1.getCategory().getId_category() == category.getId_category()) {
                     total += smartphone1.getQuantity() * Double.parseDouble(smartphone1.getPrice());
                 }
             }
@@ -580,7 +580,15 @@ public class SmartphoneManager implements ISmartphoneService {
                 System.out.println("No products matched!!!");
             }
         } else {
-            System.out.println("Please enter exactly as directed!!!");
+            list.addAll(smartphones);
+            System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
+                    "Id", "Name", "Price", "Quantity", "Category", "Manufacture",
+                    "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
+            for (Smartphone smartphone1 : list) {
+                System.out.println(smartphone1);
+            }
+            searchByName();
+//            System.out.println("Please enter exactly as directed!!!");
         }
     }
 
