@@ -16,7 +16,7 @@ public class CartManager implements ICartService {
     private final FileIO<Cart> file;
     private final String PATH = "C:\\Users\\tuyen\\Desktop\\Case_Study_Test\\src\\io\\data\\cart";
     private boolean flag;
-    private Account account;
+    private final Account account;
     private Pattern pattern;
     SmartphoneManager smartphoneManager = SmartphoneManager.getInstance();
 
@@ -49,14 +49,12 @@ public class CartManager implements ICartService {
         }
     }
 
-    public List<Cart> getCarts() {
-        return carts;
-    }
 
     @Override
     public void display() {
         if (!carts.isEmpty()) {
-            System.out.printf("%-10s %-20s %-20s %-20s %-20s %-20s\n", "Id", "ID Product", "Name Product", "Price", "Quantity", "Payment Amount");
+            System.out.printf("%-10s %-20s %-20s %-20s %-20s %-20s\n",
+                    "Id", "ID Product", "Name Product", "Price", "Quantity", "Payment Amount");
             for (Cart cart : carts) {
                 System.out.println(cart);
             }
@@ -96,7 +94,7 @@ public class CartManager implements ICartService {
 
     @Override
     public void create() {
-        Smartphone smartphone = smartphoneManager.findById();
+        smartphone = smartphoneManager.findById();
         int idProduct = smartphone.getId();
         String nameProduct = smartphone.getName();
         String price = smartphone.getPrice();
@@ -128,8 +126,14 @@ public class CartManager implements ICartService {
 
     @Override
     public void update() {
+        display();
         Cart cart = findById();
         if (cart != null) {
+            for (Smartphone smartphone1 : smartphoneManager.getSmartphones()) {
+                if (smartphone1.getId() == cart.getId()) {
+                    smartphone = smartphone1;
+                }
+            }
             int quantity = inputQuantityWantBuy();
             if ((quantity != 0 && quantity <= smartphone.getQuantity())) {
                 double payment = Double.parseDouble(cart.getPrice()) * quantity;
@@ -173,7 +177,7 @@ public class CartManager implements ICartService {
         try {
             id = Integer.parseInt(inputStt());
             for (Cart cart : carts) {
-                if (id == cart.getId()) {
+                if (id == cart.getStt()) {
                     flag = true;
                     break;
                 }
@@ -188,7 +192,7 @@ public class CartManager implements ICartService {
     public Cart findById() {
         if (checkStt()) {
             for (Cart cart : carts) {
-                if (cart.getId() == id) {
+                if (cart.getStt() == id) {
                     return cart;
                 }
             }
@@ -221,37 +225,38 @@ public class CartManager implements ICartService {
         file.writeFile(PATH, carts);
     }
 
-//    private boolean checkAccount() {
-//        flag = false;
-//        account = AccountManager.accountLogIn;
-//        List<Cart> list = file.readFile(PATH);
-//        for (Cart cart : list) {
-//            if (cart.getAccount().getId() == account.getId()) {
-//                flag = true;
-//                break;
-//            }
-//        }
-//        return flag;
-//    }
-
     public void readFromFile() {
-//        if (checkAccount()) {
-//            carts = file.readFile(PATH);
-//        } else {
-//            carts = new ArrayList<>();
-//        }
         carts = file.readFile(PATH);
     }
 
     private List<Cart> bills = new ArrayList<>();
+
     public void purchase() {
         display();
         Cart cart = findById();
         if (cart != null) {
-            bills.add(cart);
+            if (!bills.isEmpty()) {
+                flag = false;
+                for (Cart cart1 : bills) {
+                    if (cart1.getId() != cart.getId()) {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    bills.add(cart);
+                    System.out.println("Add bill success!!!");
+                } else {
+                    System.out.println("The product is already in bill!!!");
+                }
+            } else {
+                bills.add(cart);
+                System.out.println("Add bill success!!!");
+            }
         } else {
             System.out.println("No product as your entered!!!");
         }
+//        file.writeFile(PATH_PRODUCT_PURCHASE,bills);
         writeToFile();
     }
 
@@ -266,8 +271,9 @@ public class CartManager implements ICartService {
             System.out.println("Please select the product to pay!!!");
         }
     }
-    public void payProduct(){
-        if (!bills.isEmpty()){
+
+    public void payProduct() {
+        if (!bills.isEmpty()) {
             displayProductInBill();
             System.out.println("You want to buy the product?");
             System.out.println("1-Yes/ 0-No");
@@ -279,17 +285,44 @@ public class CartManager implements ICartService {
                     carts.removeAll(bills);
                     bills = new ArrayList<>();
                     System.out.println("Success!!!");
+                    productInStock();
                 }
             } else {
                 System.out.println("Please enter the correct option!! ");
             }
-        }
-        else {
+        } else {
             System.out.println("Please select the product to pay!!!");
         }
     }
-    private final List<Cart> listProductPurchase = new ArrayList<>();
-    public List<Cart> getCartsAfterPurchase() {
-        return listProductPurchase;
+
+    private List<Cart> listProductPurchase = new ArrayList<>();
+    private final List<Cart> listProductTemp = new ArrayList<>();
+
+    private void productInStock(){
+        List<Smartphone> smartphones = smartphoneManager.getSmartphones();
+        int quantityAfterPurchase;
+        for (Smartphone smartphone1 : smartphones){
+            for (Cart cart : listProductPurchase){
+                if (smartphone1.getId() == cart.getId()){
+                    quantityAfterPurchase = smartphone1.getQuantity() - cart.getQuantity();
+                    if (quantityAfterPurchase != -1){
+                        smartphone1.setQuantity(quantityAfterPurchase);
+                    }
+                }
+            }
+        }
+        listProductTemp.addAll(listProductPurchase);
+        smartphoneManager.writeToFile();
+        listProductPurchase = new ArrayList<>();
     }
+
+    public void totalRevenue(){
+        double total = 0;
+        for (Cart cart : listProductTemp){
+            total += cart.getQuantity() * Double.parseDouble(cart.getPrice());
+        }
+        String strTotal = String.format("%.1f",total);
+        System.out.println("Total sales revenue " + strTotal);
+    }
+
 }

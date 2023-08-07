@@ -1,6 +1,7 @@
 package menu;
 
 import manage.impl.AccountManager;
+import manage.impl.CartManager;
 import manage.impl.SmartphoneManager;
 import model.Smartphone;
 
@@ -25,7 +26,6 @@ public class AccountMenu {
                     case 1:
                         if (accountManager.checkLogin()) {
                             System.out.println("Log in successful!");
-                            //thiết kế menu cho từng role
                             if (accountManager.checkRole()) {
                                 menuAdmin(scanner, choice);
                             } else {
@@ -123,18 +123,18 @@ public class AccountMenu {
     public void menuUser(Scanner scanner, int choice) {
         SmartphoneManager smartphoneManager = SmartphoneManager.getInstance();
         CartMenu cartMenu = new CartMenu();
+        CartManager cartManager = CartManager.getInstance();
         List<Smartphone> list1 = new ArrayList<>();
         do {
             System.out.println("Menu account:                          "
-                    +"User name: " + AccountManager.accountLogIn.getUserName());
+                    + "User name: " + AccountManager.accountLogIn.getUserName());
             System.out.println("1. Display product in store");
             System.out.println("2. Search product by category, name, price and ram");
             System.out.println("3. Search product by name");
             System.out.println("4. Sort products by price increase");
             System.out.println("5. Sort products by price decrease");
-//tính năng mua hàng ở đây
-            System.out.println("6. Your cart:");
-//bổ sung tính năng user: giỏ hàng và thanh toán
+            System.out.println("6. Add product to cart");
+            System.out.println("7. Your cart:");
             System.out.println("0. Exit");
             System.out.println("====================================");
             System.out.println("Enter choice");
@@ -165,7 +165,14 @@ public class AccountMenu {
                         smartphoneManager.displayByPriceDecrease(list1);
                         break;
                     case 6:
-                        cartMenu.menu(scanner, choice);
+                        if (list1.isEmpty()) {
+                            list1 = smartphoneManager.getSmartphones();
+                        }
+                        smartphoneManager.displayListSearch(list1);
+                        cartManager.create();
+                        break;
+                    case 7:
+                        cartMenu.menuCart(scanner, choice);
                         break;
                 }
             } catch (Exception e) {

@@ -1,5 +1,6 @@
 package menu;
 
+import manage.impl.CartManager;
 import manage.impl.SmartphoneManager;
 
 import java.util.Scanner;
@@ -7,6 +8,7 @@ import java.util.Scanner;
 public class SmartphoneMenu {
     public void menu(Scanner scanner, int choice) {
         SmartphoneManager smartphoneManager = SmartphoneManager.getInstance();
+        CartManager cartManager = CartManager.getInstance();
         do {
             System.out.println("Menu Product: ");
             System.out.println("1. Display Product list");
@@ -16,6 +18,7 @@ public class SmartphoneMenu {
             System.out.println("5. Total amount of products");
             System.out.println("6. Total quantity of products");
             System.out.println("7. Search product product");
+            System.out.println("8. Total sales revenue");
             System.out.println("0. Exit");
             System.out.println("============================================");
             System.out.println("Enter your choice:");
@@ -42,6 +45,9 @@ public class SmartphoneMenu {
                         break;
                     case 7:
                         smartphoneManager.searchProduct();
+                        break;
+                    case 8:
+                        cartManager.totalRevenue();
                         break;
                 }
             } catch (Exception e) {

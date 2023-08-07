@@ -1,21 +1,19 @@
 package menu;
 
 import manage.impl.CartManager;
-import manage.impl.RoleManager;
 
 import java.util.Scanner;
 
 public class CartMenu {
-    public void menu(Scanner scanner, int choice){
+    public void menuCart(Scanner scanner, int choice){
         CartManager cartManager = CartManager.getInstance();
         do {
             System.out.println("Menu cart: ");
             System.out.println("1. Display product list in cart");
-            System.out.println("2. Add product to cart");
-            System.out.println("3. Update quantity product in cart");
-            System.out.println("4. Delete product");
-            System.out.println("5. Purchase product");
-            System.out.println("6. Payment product");
+            System.out.println("2. Update quantity product in cart");
+            System.out.println("3. Delete product");
+            System.out.println("4. Purchase product");
+            System.out.println("5. Payment product");
             System.out.println("0. Exit");
             System.out.println("============================================");
             System.out.println("Enter your choice:");
@@ -26,18 +24,15 @@ public class CartMenu {
                         cartManager.display();
                         break;
                     case 2:
-                        cartManager.create();
-                        break;
-                    case 3:
                         cartManager.update();
                         break;
-                    case 4:
+                    case 3:
                         cartManager.delete();
                         break;
-                    case 5:
+                    case 4:
                         cartManager.purchase();
                         break;
-                    case 6:
+                    case 5:
                         cartManager.payProduct();
                         break;
                 }

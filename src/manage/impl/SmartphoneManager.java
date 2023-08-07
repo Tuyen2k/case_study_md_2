@@ -2,6 +2,7 @@ package manage.impl;
 
 import io.FileIO;
 import manage.ISmartphoneService;
+import model.Cart;
 import model.Category;
 import model.Parameter;
 import model.Smartphone;
@@ -19,11 +20,13 @@ public class SmartphoneManager implements ISmartphoneService {
     private final FileIO<Smartphone> file;
     private final String PATH = "C:\\Users\\tuyen\\Desktop\\Case_Study_Test\\src\\io\\data\\product";
     private Parameter parameter;
-    private final CategoryManager categoryManager = CategoryManager.getInstance();
-    private final ParameterManager parameterManager = ParameterManager.getInstance();
+    private final  CategoryManager categoryManager;
+    private final  ParameterManager parameterManager;
 
     private SmartphoneManager() {
         scanner = new Scanner(System.in);
+        categoryManager = CategoryManager.getInstance();
+        parameterManager = ParameterManager.getInstance();
         file = new FileIO<>();
         readFromFile();
         setIndex();
@@ -54,7 +57,7 @@ public class SmartphoneManager implements ISmartphoneService {
     public void display() {
         if (!smartphones.isEmpty()) {
             System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
-                    "Id", "Name", "Price", "Quantity", "Id Category", "Manufacture", "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
+                    "Id", "Name", "Price", "Quantity", "Id Cate", "Manufacture", "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
             for (Smartphone smartphone : smartphones) {
                 System.out.println(smartphone);
             }
@@ -609,6 +612,14 @@ public class SmartphoneManager implements ISmartphoneService {
         for (Smartphone smartphone1 : list1) {
             System.out.println(smartphone1);
         }
+    }
+
+    public void displayListSearch(List<Smartphone> list){
+            System.out.printf("%-5s %-20s %-10s %-10s %-10s %-10s %-10s %-10s %-15s %-20s %-10s %-10s %-10s %-10s\n",
+                    "Id", "Name", "Price", "Quantity", "Id Cate", "Manufacture", "Series", "Color", "Screen", "CPU", "RAM", "ROM", "Battery", "Machine");
+            for (Smartphone smartphone : list) {
+                System.out.println(smartphone);
+            }
     }
 
 }

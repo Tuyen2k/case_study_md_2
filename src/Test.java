@@ -1,5 +1,4 @@
 
-import manage.impl.RoleManager;
 import menu.*;
 
 import java.util.Scanner;
@@ -14,12 +13,6 @@ public class Test {
         RoleMenu roleMenu = new RoleMenu();
         AccountMenu accountMenu = new AccountMenu();
 
-
-
-//        parameterMenu.menu();
-//        smartphoneMenu.menu(scanner, choice);
-
-//        roleMenu.menu();
         accountMenu.menuLogIn();
 
     }
